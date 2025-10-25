@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/freqAmp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#262626"
+    android:padding="10dp"
+    tools:context=".FreqAmp">
+
+    <!-- 1. Instrucción / Estado -->
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amplitud  vs Frecuencia"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_home" />
+
+    <!-- Visualizer View (Recuadro de Visualización) -->
+    <com.example.demouniversum.VisualizerView
+        android:id="@+id/visualizerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
+        android:background="#444"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/amp_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_home" />
+
+    <!-- 3. Slider de Balance L/R -->
+    <TextView
+        android:id="@+id/label_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="44Hz"
+        android:layout_marginStart="10dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/freqSlider"
+        app:layout_constraintStart_toEndOf="@+id/playPauseButton"
+        app:layout_constraintTop_toTopOf="@id/freqSlider" />
+
+    <TextView
+        android:id="@+id/label_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="880Hz"
+        android:layout_marginEnd="10dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@id/visualizerView"
+        app:layout_constraintTop_toTopOf="@id/freqSlider"
+        app:layout_constraintBottom_toBottomOf="@id/freqSlider"/>
+
+    <TextView
+        android:id="@+id/freq_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frecuencia"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@+id/ampSlider"
+        app:layout_constraintEnd_toEndOf="@id/ampSlider"
+        app:layout_constraintBottom_toTopOf="@+id/freqSlider"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/freqSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:value="50.0"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toStartOf="@id/label_R"
+        app:layout_constraintStart_toEndOf="@id/label_L"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/label_R_amp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@id/ampSlider"
+        app:layout_constraintTop_toTopOf="@id/ampSlider"
+        app:layout_constraintBottom_toBottomOf="@id/ampSlider"/>
+
+    <TextView
+        android:id="@+id/label_L_amp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/ampSlider"
+        app:layout_constraintTop_toTopOf="@id/ampSlider"
+        app:layout_constraintBottom_toBottomOf="@id/ampSlider"/>
+
+    <TextView
+        android:id="@+id/amp_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amplitud"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@+id/ampSlider"
+        app:layout_constraintEnd_toEndOf="@id/ampSlider"
+        app:layout_constraintBottom_toTopOf="@+id/ampSlider"
+        app:layout_constraintTop_toBottomOf="@id/visualizerView"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/ampSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:value="0.5"
+        android:valueFrom="0.0"
+        android:valueTo="1.0"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/freq_label"
+        app:layout_constraintEnd_toEndOf="@id/freqSlider"
+        app:layout_constraintStart_toStartOf="@id/freqSlider"
+        app:layout_constraintTop_toBottomOf="@+id/amp_label"/>
+
+    <!-- 4. Botón de Play/Pausa -->
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Reproducir o pausar"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="@id/freqSlider"
+        app:layout_constraintStart_toStartOf="@id/visualizerView"
+        app:layout_constraintTop_toTopOf="@+id/amp_label"
+        app:tint="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/button_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Volver al inicio"
+        android:padding="10dp"
+        android:src="@drawable/home"
+        android:scaleType="fitCenter"
+        app:tint="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
