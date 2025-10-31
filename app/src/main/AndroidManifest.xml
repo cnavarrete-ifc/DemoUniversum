@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DemoUniversum">
         <activity
-            android:name=".Binaural2"
+            android:name=".Binaural3"
             android:exported="false"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".Binaural2"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Espectrograma"
             android:exported="false"

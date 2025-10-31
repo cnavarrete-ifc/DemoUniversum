@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         // Listener para el primer botón
         button1.setOnClickListener {
-            val intent = Intent(this, FreqAmp::class.java)
+            val intent = Intent(this, Binaural3::class.java)
             startActivity(intent)
         }
 
