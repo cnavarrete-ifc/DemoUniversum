@@ -33,11 +33,15 @@ private:
     float elevation = 0;
     float distance = 1.0f;
 
-    // Búferes para implementar el retardo interaural (ITD)
+    // Búferes para retardo interaural (ITD)
     std::vector<int16_t> leftDelayBuffer;
     std::vector<int16_t> rightDelayBuffer;
     int leftDelayIndex = 0;
     int rightDelayIndex = 0;
+
+    // Variables de estado para el filtro Biquad (para simulación de elevación)
+    float lx1 = 0, lx2 = 0, ly1 = 0, ly2 = 0; // Estado del filtro izquierdo
+    float rx1 = 0, rx2 = 0, ry1 = 0, ry2 = 0; // Estado del filtro derecho
 
     std::mutex paramMutex;
 };

@@ -4,7 +4,6 @@
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO,"SpatialAudio",__VA_ARGS__)
 
 SpatialAudioEngine::SpatialAudioEngine() {
-    // Inicializar los búferes de retardo con ceros
     leftDelayBuffer.assign(MAX_DELAY_SAMPLES, 0);
     rightDelayBuffer.assign(MAX_DELAY_SAMPLES, 0);
 }
@@ -14,6 +13,9 @@ SpatialAudioEngine::~SpatialAudioEngine() { stop(); }
 void SpatialAudioEngine::setAudioData(const std::vector<int16_t> &data) {
     pcm = data;
     playhead = 0;
+    // Reiniciar estado del filtro al cargar nuevo audio
+    lx1 = lx2 = ly1 = ly2 = 0;
+    rx1 = rx2 = ry1 = ry2 = 0;
 }
 
 void SpatialAudioEngine::setAzimuth(float deg) {
@@ -28,7 +30,7 @@ void SpatialAudioEngine::setElevation(float deg) {
 
 void SpatialAudioEngine::setDistance(float meters) {
     std::lock_guard<std::mutex> lock(paramMutex);
-    distance = fmax(1.0f, meters); // Evitar distancia cero o negativa
+    distance = fmax(1.0f, meters);
 }
 
 void SpatialAudioEngine::start() {
@@ -82,30 +84,32 @@ oboe::DataCallbackResult SpatialAudioEngine::onAudioReady(
             dist = distance;
         }
 
-        // Calcular el modelo HRTF para la posición actual
         HRTFModel hrtf = computeHRTF(az, el, sampleRate);
 
-        // Escribir la muestra actual en los búferes de retardo
+        // --- PROCESADO DE RETARDO (ITD) ---
         leftDelayBuffer[leftDelayIndex] = monoSample;
         rightDelayBuffer[rightDelayIndex] = monoSample;
-
-        // Calcular los índices de lectura para el retardo (ITD)
         int leftReadIndex = (leftDelayIndex - (int)hrtf.leftDelay + MAX_DELAY_SAMPLES) % MAX_DELAY_SAMPLES;
         int rightReadIndex = (rightDelayIndex - (int)hrtf.rightDelay + MAX_DELAY_SAMPLES) % MAX_DELAY_SAMPLES;
-
-        // Leer las muestras retardadas
-        int16_t leftSample = leftDelayBuffer[leftReadIndex];
-        int16_t rightSample = rightDelayBuffer[rightReadIndex];
-
-        // Aplicar ganancia (ILD) y atenuación por distancia
-        float leftOutput = leftSample * hrtf.leftGain / dist;
-        float rightOutput = rightSample * hrtf.rightGain / dist;
-
-        // Avanzar los índices de escritura
+        float leftDelayed = leftDelayBuffer[leftReadIndex];
+        float rightDelayed = rightDelayBuffer[rightReadIndex];
         leftDelayIndex = (leftDelayIndex + 1) % MAX_DELAY_SAMPLES;
         rightDelayIndex = (rightDelayIndex + 1) % MAX_DELAY_SAMPLES;
+
+        // --- PROCESADO DE FILTRO (ELEVACIÓN) ---
+        BiquadCoeffs c = hrtf.filterCoeffs;
+        float leftFiltered = c.b0 * leftDelayed + c.b1 * lx1 + c.b2 * lx2 - c.a1 * ly1 - c.a2 * ly2;
+        lx2 = lx1; lx1 = leftDelayed;
+        ly2 = ly1; ly1 = leftFiltered;
+
+        float rightFiltered = c.b0 * rightDelayed + c.b1 * rx1 + c.b2 * rx2 - c.a1 * ry1 - c.a2 * ry2;
+        rx2 = rx1; rx1 = rightDelayed;
+        ry2 = ry1; ry1 = rightFiltered;
+
+        // --- APLICACIÓN DE GANANCIA (ILD Y DISTANCIA) ---
+        float leftOutput = leftFiltered * hrtf.leftGain / dist;
+        float rightOutput = rightFiltered * hrtf.rightGain / dist;
         
-        // Escribir en el búfer de salida, asegurando que no haya clipping
         out[i * 2] = (int16_t) fmax(-32768.0f, fmin(32767.0f, leftOutput));
         out[i * 2 + 1] = (int16_t) fmax(-32768.0f, fmin(32767.0f, rightOutput));
     }
