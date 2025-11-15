@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#262626"
+    android:background="#FFFFFF"
     android:padding="10dp"
     tools:context=".Espectrograma">
 
@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Espectrograma"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/button_home"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/black" />
 
     <ImageButton
         android:id="@+id/button_home"
@@ -61,7 +61,7 @@
         android:padding="10dp"
         android:src="@drawable/home"
         android:scaleType="fitCenter"
-        app:tint="@android:color/white"
+        app:tint="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -5,16 +5,34 @@ plugins {
 
 android {
     namespace = "com.example.demouniversum"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.demouniversum"
-        minSdk = 28
+        minSdk = 34
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags.add("-std=c++17 -O3")
+                arguments.add("-DANDROID_STL=c++_shared")
+            }
+        }
+
+        ndk {
+            abiFilters += "arm64-v8a"
+            abiFilters += "x86_64"
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 
     buildTypes {
@@ -33,6 +51,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        prefab = true
+    }
 }
 
 dependencies {
@@ -46,4 +68,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.google.oboe:oboe:1.8.1")
 }

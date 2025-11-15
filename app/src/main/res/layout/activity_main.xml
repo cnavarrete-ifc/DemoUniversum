@@ -5,9 +5,49 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#262626"
+    android:background="#FFFFFF"
     android:padding="10dp"
     tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/logoIFC"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_ifc"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="Icono de IFC"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DemoUniversum"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/logoIFC"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/logoUniversum"
+        app:layout_constraintBottom_toTopOf="@+id/app1button"/>
+
+    <ImageView
+        android:id="@+id/logoUniversum"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_universum"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="Icono de Universum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
     <!--    Botón 1     -->
     <androidx.cardview.widget.CardView
@@ -15,7 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:backgroundTint="#474747"
+        android:backgroundTint="#EEEEEE"
         app:cardCornerRadius="15dp"
 
         android:clickable="true"
@@ -25,7 +65,7 @@
         app:layout_constraintBottom_toTopOf="@id/app3button"
         app:layout_constraintEnd_toStartOf="@id/app2button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/logoIFC">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -37,8 +77,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:text="Canales independientes"
-                android:textColor="@android:color/white"
+                android:text="Estado de ánimo"
+                android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:gravity="center" />
@@ -55,7 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:backgroundTint="#474747"
+        android:backgroundTint="#EEEEEE"
         app:cardCornerRadius="15dp"
 
         android:clickable="true"
@@ -64,8 +104,8 @@
 
         app:layout_constraintBottom_toTopOf="@id/app4button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/app1button"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintStart_toEndOf="@id/app1button"
+        app:layout_constraintTop_toBottomOf="@+id/logoUniversum" >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -77,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Binauralidad"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold">
             </TextView>
@@ -94,7 +134,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:backgroundTint="#474747"
+        android:backgroundTint="#EEEEEE"
         app:cardCornerRadius="15dp"
 
         android:clickable="true"
@@ -115,8 +155,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Espectrograma"
-                android:textColor="@android:color/white"
+                android:text="¿Grave o agudo?"
+                android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold">
             </TextView>
@@ -131,7 +171,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:backgroundTint="#474747"
+        android:backgroundTint="#EEEEEE"
         app:cardCornerRadius="15dp"
 
         android:clickable="true"
@@ -152,11 +192,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Binauralidad 2"
-                android:textColor="@android:color/white"
+                android:text="¿De dónde viene"
+                android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold">
-            </TextView>
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="el sonido?"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

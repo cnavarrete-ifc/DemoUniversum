@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         // Listener para el cuarto botón
         button4.setOnClickListener {
-            val intent = Intent(this, Binaural2::class.java)
+            val intent = Intent(this, AudioEspacial::class.java)
             startActivity(intent)
         }
     }

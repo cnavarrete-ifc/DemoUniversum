@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_SPATIALIZER" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -14,9 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DemoUniversum">
         <activity
-            android:name=".Binaural3"
+            android:name=".AudioEspacial"
             android:exported="false"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".Animometro"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Binaural3"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Binaural2"
             android:exported="false"

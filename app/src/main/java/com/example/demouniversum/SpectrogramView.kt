@@ -24,7 +24,7 @@ class SpectrogramView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     private val textPaint = Paint().apply {
-        color = Color.WHITE
+        color = Color.BLACK
         textSize = 24f
     }
 

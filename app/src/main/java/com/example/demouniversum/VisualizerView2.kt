@@ -17,7 +17,7 @@ class VisualizerView2 @JvmOverloads constructor(
 
     // Pincel para la onda izquierda (cian)
     private val leftWavePaint = Paint().apply {
-        color = Color.CYAN
+        color = Color.BLUE
         style = Paint.Style.STROKE
         strokeWidth = 5f
         isAntiAlias = true

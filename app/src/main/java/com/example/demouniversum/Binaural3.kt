@@ -1,16 +1,16 @@
 package com.example.demouniversum
 
-import android.graphics.Path
+import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioTrack
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.slider.Slider
 import kotlin.concurrent.thread
 import kotlin.math.sin
-
 
 class Binaural3 : AppCompatActivity() {
 
@@ -21,7 +21,8 @@ class Binaural3 : AppCompatActivity() {
     private lateinit var ampSliderR: Slider
     private lateinit var freqSliderL: Slider
     private lateinit var freqSliderR: Slider
-    private lateinit var visualizerView: VisualizerView2
+    private lateinit var visualizerView: VisualizerView3
+    private lateinit var animometroButton: Button
 
     // --- Variables de Audio ---
     private lateinit var audioTrack: AudioTrack
@@ -32,11 +33,6 @@ class Binaural3 : AppCompatActivity() {
     @Volatile private var currentFrequencyR = 440.0
     @Volatile private var amplitudeLeft = 0.5
     @Volatile private var amplitudeRight = 0.5
-
-
-    // --- Variables de Visualización ---
-    private val leftWavePath = Path()
-    private val rightWavePath = Path()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +49,10 @@ class Binaural3 : AppCompatActivity() {
         freqSliderR = findViewById(R.id.difSlider)
         visualizerView = findViewById(R.id.visualizerView)
         findViewById<ImageButton>(R.id.button_home).setOnClickListener { finish() }
-
+        animometroButton = findViewById(R.id.animometroButton)
 
         // La vista se actualiza sola la primera vez
-        visualizerView.post { updateWavePaths() }
+        visualizerView.post { updateVisualizer() }
     }
 
     private fun setupListeners() {
@@ -71,18 +67,23 @@ class Binaural3 : AppCompatActivity() {
             }
         }
 
+        animometroButton.setOnClickListener {
+            val intent = Intent(this, Animometro::class.java)
+            startActivity(intent)
+        }
+
         // SLIDERS DE AMPLITUDES
         ampSliderL.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 amplitudeLeft = value.toDouble()
-                updateWavePaths()
+                updateVisualizer()
             }
         }
 
         ampSliderR.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 amplitudeRight = value.toDouble()
-                updateWavePaths()
+                updateVisualizer()
             }
         }
 
@@ -90,14 +91,14 @@ class Binaural3 : AppCompatActivity() {
         freqSliderL.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 currentFrequencyL = value.toDouble()
-                updateWavePaths()
+                updateVisualizer()
             }
         }
 
         freqSliderR.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 currentFrequencyR = value.toDouble()
-                updateWavePaths()
+                updateVisualizer()
             }
         }
     }
@@ -114,7 +115,6 @@ class Binaural3 : AppCompatActivity() {
             .build()
 
         audioThread = thread(start = true) {
-            // El tamaño del buffer viene en bytes, pero usamos un ShortArray, así que dividimos por 2.
             val buffer = ShortArray(minBufferSizeInBytes / 2)
             var phaseL = 0.0
             var phaseR = 0.0
@@ -122,20 +122,15 @@ class Binaural3 : AppCompatActivity() {
             try {
                 audioTrack.play()
                 while (!Thread.currentThread().isInterrupted) {
-                    // Copias locales para evitar problemas de concurrencia dentro del bucle
                     val localAmpL = amplitudeLeft
                     val localAmpR = amplitudeRight
                     val localFreqL = currentFrequencyL
                     val localFreqR = currentFrequencyR
 
-                    // Generamos las muestras para cada canal (Izquierda y Derecha)
                     for (i in buffer.indices step 2) {
-                        // Muestra para el canal Izquierdo
                         buffer[i] = (localAmpL * sin(phaseL) * Short.MAX_VALUE).toInt().toShort()
-                        // Muestra para el canal Derecho
                         buffer[i + 1] = (localAmpR * sin(phaseR) * Short.MAX_VALUE).toInt().toShort()
 
-                        // Avanzamos la fase para cada canal de forma independiente
                         phaseL += 2 * Math.PI * localFreqL / sampleRate
                         phaseR += 2 * Math.PI * localFreqR / sampleRate
                     }
@@ -148,7 +143,6 @@ class Binaural3 : AppCompatActivity() {
             } catch (e: InterruptedException) {
                 Thread.currentThread().interrupt()
             } finally {
-                // Nos aseguramos de parar y liberar el AudioTrack de forma segura
                 if (this::audioTrack.isInitialized) {
                     if (audioTrack.playState == AudioTrack.PLAYSTATE_PLAYING) {
                         audioTrack.stop()
@@ -164,39 +158,13 @@ class Binaural3 : AppCompatActivity() {
         audioThread = null
     }
 
-    private fun updateWavePaths() {
-        if (visualizerView.width == 0 || visualizerView.height == 0) return
-
-        leftWavePath.reset()
-        rightWavePath.reset()
-
-        val viewWidth = visualizerView.width.toFloat()
-        val viewHeight = visualizerView.height.toFloat()
-        val centerY = viewHeight / 2
-        // Usamos una ventana de tiempo fija para que la visualización sea estable
-        val timeWindowSeconds = 0.025
-
-        val numSamplesForView = (viewWidth * 2).toInt()
-
-        leftWavePath.moveTo(0f, centerY)
-        rightWavePath.moveTo(0f, centerY)
-
-        for (i in 0..numSamplesForView) {
-            val x = i.toFloat() / numSamplesForView * viewWidth
-            val t = (i.toFloat() / numSamplesForView) * timeWindowSeconds
-
-            // Onda Izquierda: se calcula con su propia frecuencia y amplitud
-            val angleL = 2 * Math.PI * currentFrequencyL * t
-            val yLeft = centerY - (sin(angleL) * amplitudeLeft * (viewHeight / 2.2)).toFloat()
-            leftWavePath.lineTo(x, yLeft)
-
-            // Onda Derecha: se calcula con su propia frecuencia y amplitud
-            val angleR = 2 * Math.PI * currentFrequencyR * t
-            val yRight = centerY - (sin(angleR) * amplitudeRight * (viewHeight / 2.2)).toFloat()
-            rightWavePath.lineTo(x, yRight)
-        }
-
-        visualizerView.setWavePaths(leftWavePath, rightWavePath)
+    private fun updateVisualizer() {
+        visualizerView.setWaveParameters(
+            currentFrequencyL,
+            amplitudeLeft,
+            currentFrequencyR,
+            amplitudeRight
+        )
     }
 
     override fun onStop() {

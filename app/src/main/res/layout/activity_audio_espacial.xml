@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="10dp"
+    tools:context=".AudioEspacial">
+
+    <!-- Home Button -->
+    <ImageButton
+        android:id="@+id/button_home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Volver al inicio"
+        android:padding="10dp"
+        android:src="@drawable/home"
+        android:scaleType="fitCenter"
+        app:tint="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿De dónde viene el sonido?"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/button_home"
+        app:layout_constraintBottom_toBottomOf="@id/button_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Speaker Icon -->
+    <ImageView
+        android:id="@+id/speakerIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_bocina_off"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Posición de la bocina" />
+
+    <!-- Play/Pause Button -->
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Reproducir o pausar"
+        android:padding="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@android:color/black" />
+
+    <!-- Azimuth Slider (Horizontal) -->
+    <com.google.android.material.slider.Slider
+        android:id="@+id/azimuthSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:value="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/playPauseButton" />
+
+    <!-- Elevation Slider (Vertical) -->
+    <com.google.android.material.slider.Slider
+        android:id="@+id/elevationSlider"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:rotation="270"
+        android:value="0.5"
+        android:valueFrom="0.01"
+        android:valueTo="0.99"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="-50dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
