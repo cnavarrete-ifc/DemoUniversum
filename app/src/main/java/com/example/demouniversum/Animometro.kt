@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -16,6 +17,7 @@ class Animometro : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_animometro)
 
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)

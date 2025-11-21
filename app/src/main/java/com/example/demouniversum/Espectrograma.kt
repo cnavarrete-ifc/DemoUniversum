@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import org.jtransforms.fft.FloatFFT_1D
 import kotlin.math.cos
 import kotlin.math.log10
@@ -40,6 +41,7 @@ class Espectrograma : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_espectrograma)
 
         spectrogramView = findViewById(R.id.visualizerView)

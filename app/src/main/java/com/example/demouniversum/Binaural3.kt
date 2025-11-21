@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import com.google.android.material.slider.Slider
 import kotlin.concurrent.thread
 import kotlin.math.sin
@@ -36,6 +37,7 @@ class Binaural3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_binaural3)
         setupViews()
         setupListeners()

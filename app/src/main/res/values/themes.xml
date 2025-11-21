@@ -1,8 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.DemoUniversum" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Atributos para pantalla completa -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!-- Manejo de "notch" en dispositivos modernos -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+
+        <!-- Hacer las barras del sistema transparentes para una inmersión total -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.DemoUniversum" parent="Base.Theme.DemoUniversum" />

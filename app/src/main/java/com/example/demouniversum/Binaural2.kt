@@ -6,6 +6,7 @@ import android.graphics.Path
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import com.google.android.material.slider.Slider
 import kotlin.concurrent.thread
 
@@ -36,6 +37,7 @@ class Binaural2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_binaural2)
         setupViews()
         setupListeners()

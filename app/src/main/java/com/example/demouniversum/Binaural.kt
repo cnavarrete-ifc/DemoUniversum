@@ -11,6 +11,7 @@ import android.media.AudioFormat
 import android.media.AudioTrack
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.WindowCompat
 import com.google.android.material.slider.Slider
 import kotlin.concurrent.thread
 import kotlin.math.sin
@@ -42,6 +43,7 @@ class Binaural : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_binaural)
         setupViews()
         setupListeners()

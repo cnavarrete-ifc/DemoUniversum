@@ -5,6 +5,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.WindowCompat
 import com.google.android.material.slider.Slider
 
 class AudioEspacial : AppCompatActivity() {
@@ -28,6 +29,9 @@ class AudioEspacial : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Habilitar el modo de borde a borde para usar toda la pantalla
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContentView(R.layout.activity_audio_espacial)
 
         setupUI()
